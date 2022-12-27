@@ -7,6 +7,18 @@ const browserConfig = require('./browser.config.js');
 
 		const page = await browser.newPage();
 
+		page.on('pageerror', (err) => {
+			logWarning(`Page error emitted: "${err.message}"`);
+		});
+
+		page.on('response', (res) => {
+			if (!res.ok()) {
+				logWarning(
+					`Non-200 response from this request: [${req.status()}] "${req.url()}"`
+				);
+			}
+		});
+
 		await page.goto('https://google.ca', { waitUntil: 'domcontentloaded' });
 
 		// look for element
@@ -52,3 +64,5 @@ const browserConfig = require('./browser.config.js');
 const delay = async (ms) => {
 	return new Promise((r) => setTimeout(r, ms));
 };
+
+const logWarning = (message) => console.error(message);
