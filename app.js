@@ -7,7 +7,7 @@ const browserConfig = require('./browser.config.js');
 
 		const page = await browser.newPage();
 
-		await page.goto('https://google.ca');
+		await page.goto('https://google.ca', { waitUntil: 'domcontentloaded' });
 
 		// look for element
 		const gooSearchInput = 'body input';
@@ -26,7 +26,7 @@ const browserConfig = require('./browser.config.js');
 		//if we use the eval function we do not need to dispose the element
 		// await el1.dispose();
 
-		await page.goto('https://youtube.com');
+		await page.goto('https://youtube.com', { waitUntil: 'domcontentloaded' });
 
 		const ytSearchInput = 'input#search';
 		const ytSearchValue = 'javascript puppeteer';
@@ -41,7 +41,7 @@ const browserConfig = require('./browser.config.js');
 		//if we assign an element to a variable using waitForSelector, we need to dipose it when we're done
 		await ytSearch.dispose();
 
-		await delay(5000);
+		await delay(5000).then((data) => console.log('end'));
 
 		await browser.close();
 	} catch (e) {
