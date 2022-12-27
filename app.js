@@ -5,6 +5,10 @@ const browserConfig = require('./browser.config.js');
 	try {
 		const browser = await puppeteer.launch(browserConfig);
 
+		browser.once('disconnected', () =>
+			logWarning(`Browser has closed or crashed and we've been disconnected!`)
+		);
+
 		const page = await browser.newPage();
 
 		page.on('pageerror', (err) => {
